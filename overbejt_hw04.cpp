@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   overbejt_hw04.cpp
- * Author: joshoverbeck
- *
+ * Author: Josh Overbeck
+ * Description: This is for the homework 04 assignment in CSE 381.
  * Created on September 21, 2019, 12:55 PM
+ * 
+ * Copyright (c) 2019 overbejt@miamioh.edu
  */
 
-#include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
@@ -19,7 +15,7 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-
+    cout << "Skeleton code generated." << endl;
     return 0;
-}
+}  // End of 'main'
 
