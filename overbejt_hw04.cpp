@@ -23,13 +23,10 @@ int main(int argc, char** argv) {
     while (std::cout << "> ", getline(cin, line)) {
         // Process the input line here.
         istringstream ss(line);
-//        getline(ss, quoted(line));
-//        string stripped(line.replace(line.begin(), line.end(), '"', ""));
         line = "";
         string stripped;
         ss >> quoted(stripped);
         stripped += " ";
-//        getline(ss, quoted(stripped));
         while (ss >> quoted(line)) {stripped += line;}
         cout << "Running: " << stripped << endl;
     }
