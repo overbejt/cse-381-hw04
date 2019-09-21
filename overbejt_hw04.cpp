@@ -8,6 +8,9 @@
  */
 
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -15,7 +18,22 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-    cout << "Skeleton code generated." << endl;
+    // Main loop
+    std::string line;
+    while (std::cout << "> ", getline(cin, line)) {
+        // Process the input line here.
+        istringstream ss(line);
+//        getline(ss, quoted(line));
+//        string stripped(line.replace(line.begin(), line.end(), '"', ""));
+        line = "";
+        string stripped;
+        ss >> quoted(stripped);
+        stripped += " ";
+//        getline(ss, quoted(stripped));
+        while (ss >> quoted(line)) {stripped += line;}
+        cout << "Running: " << stripped << endl;
+    }
+
     return 0;
 }  // End of 'main'
 
