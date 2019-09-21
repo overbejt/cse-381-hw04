@@ -21,14 +21,19 @@ int main(int argc, char** argv) {
     // Main loop
     std::string line;
     while (std::cout << "> ", getline(cin, line)) {
-        // Process the input line here.
-        istringstream ss(line);
-        line = "";
-        string stripped;
-        ss >> quoted(stripped);
-        stripped += " ";
-        while (ss >> quoted(line)) {stripped += line;}
-        cout << "Running: " << stripped << endl;
+        // Test if user entered a comment
+        if (line[0] != '#') {
+            // Strip the quotes
+            istringstream ss(line);
+            line = "";
+            string stripped;
+            ss >> quoted(stripped);
+            stripped += " ";
+            while (ss >> quoted(line)) {stripped += line;}
+            
+            // Repeat the input to the user
+            cout << "Running: " << stripped << endl;
+        }
     }
 
     return 0;
