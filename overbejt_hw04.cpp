@@ -14,6 +14,13 @@
 
 using namespace std;
 
+/**
+ *This is a helper method for determining if the user wants to exit the program.
+ */
+bool exit(string input) {
+    return input.find("exit") != string::npos;
+}  // End of the 'exit' method
+
 /*
  * 
  */
@@ -22,9 +29,7 @@ int main(int argc, char** argv) {
     std::string line;
     while (std::cout << "> ", getline(cin, line)) {
 	// Test if user wants to exit
-	if (line.find("exit") != string::npos) {
-	    return 0;
-	}
+	if (exit(line)) {return 0;}
         // Test if user entered a comment
         if (line[0] != '#') {
             // Strip the quotes
