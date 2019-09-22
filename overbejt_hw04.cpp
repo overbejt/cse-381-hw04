@@ -21,6 +21,10 @@ int main(int argc, char** argv) {
     // Main loop
     std::string line;
     while (std::cout << "> ", getline(cin, line)) {
+	// Test if user wants to exit
+	if (line.find("exit") != string::npos) {
+	    return 0;
+	}
         // Test if user entered a comment
         if (line[0] != '#') {
             // Strip the quotes
