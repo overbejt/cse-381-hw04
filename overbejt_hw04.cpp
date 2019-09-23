@@ -49,6 +49,8 @@ void parseCmd(string input) {
             string ending;
             getline(cmdStream, ending);
             splitString += ending;
+            splitString.erase(remove(splitString.begin(), 
+                    splitString.end(), '\"'), splitString.end());
         }
         cmd.push_back(splitString);
     }
