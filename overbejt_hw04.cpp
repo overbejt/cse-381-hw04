@@ -7,9 +7,9 @@
  * Copyright (c) 2019 overbejt@miamioh.edu
  */
 
-#include <iostream>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <iostream>
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -52,7 +52,9 @@ void parseCmd(string input) {
     // Split the command up into a StrVec
     istringstream cmdStream(stripped);
     StrVec cmd;
-    for (string splitString; cmdStream >> splitString;) {cmd.push_back(splitString);}
+    for (string splitString; cmdStream >> splitString;) {
+        cmd.push_back(splitString);
+    }
 
     // Execute the command
     myExec(cmd);
@@ -72,17 +74,17 @@ int main(int argc, char** argv) {
     // Main loop
     std::string line;
     while (std::cout << "> ", getline(cin, line)) {
-	// Test if user wants to exit
-	if (exit(line)) {return 0;}
+    // Test if user wants to exit
+    if (exit(line)) {return 0;}
         // Test if user entered a comment
         if (line[0] != '#' && !line.empty()) {
             const int pid = fork();
             if (pid == 0) {
                 // Process the user input
                 parseCmd(line);
-	    } else {
+            } else {
                 waitpid(pid, nullptr, 0); 
-	    }
+            }
         }
     }
     return 0;
