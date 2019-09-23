@@ -57,7 +57,9 @@ void parseCmd(string input) {
     StrVec cmd;
     for (string splitString; cmdStream >> splitString;) {
         if (splitString[0] == '"') { 
-            getline(cmdStream, splitString);
+            string ending;
+            getline(cmdStream, ending);
+            splitString += ending;
             cout << splitString << endl;
         }
         cmd.push_back(splitString);
