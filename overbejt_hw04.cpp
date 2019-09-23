@@ -21,6 +21,14 @@
 using namespace std;
 using StrVec = vector<string>;
 
+// Prototypes
+bool exit(string input);
+void serial(string fileName);
+int preChecks(string input);
+void initProcess(string inCmd);
+void parseCmd(string input);    
+void  myExec(StrVec argList);
+
 /**
  * This is a helper method for executing system calls supplied by the user.  
  * It is borrowed from the supplemental pdf from lab 4.
@@ -87,6 +95,24 @@ void initProcess(string inCmd) {
     }
 }  // End of the 'initProcess' method
 
+int preChecks(string input) {
+    // Test if user wants to exit
+    if (exit(input)) {
+        return 0;
+    }
+    // Test if user entered a comment
+    if (input[0] != '#' && !input.empty()) {
+        if (input.substr(0, 6) == "SERIAL") {
+            serial(input.substr(7));
+        } else if (input.substr(0, 8) == "PARALLEL") {
+            cout << "you entered parallel" << endl;
+        } else {
+            initProcess(input);
+        }
+    }
+    return 888;
+}  // End of the 'preChecks' method
+
 /**
  * This is a helper method for when the user wants to run a batch of bash 
  * commands in serial.
@@ -97,7 +123,8 @@ void serial(string fileName) {
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
         cout << line << endl;
-        initProcess(line);
+       // initProcess(line);
+        preChecks(line);
     }
     contents.close();
 }  // End of the 'fileName' method
@@ -121,19 +148,9 @@ int main(int argc, char** argv) {
     // Main loop
     std::string line;
     while (std::cout << "> ", getline(cin, line)) {
-    // Test if user wants to exit
-    if (exit(line)) {return 0;}
-        // Test if user entered a comment
-        if (line[0] != '#' && !line.empty()) {
-            if (line.substr(0, 6) == "SERIAL") {
-                cout << "you entered serial" << endl;
-                serial(line.substr(7));
-            } else if (line.substr(0, 8) == "PARALLEL") {
-                cout << "you entered parallel" << endl;
-            } else {
-                initProcess(line);
-            }
-        }
+        // Run some pre checks
+        int exitReady =  preChecks(line);
+	if (exitReady == 0) {return 0;}
     }
     return 0;
 }  // End of 'main'
