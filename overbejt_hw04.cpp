@@ -24,7 +24,7 @@ using StrVec = vector<string>;
  * This is a helper method for executing system calls supplied by the user.  
  * It is borrowed from the supplemental pdf from lab 4.
  */
-void myExec(StrVec argList) {
+void  myExec(StrVec argList) {
     std::vector<char*> args;
     for (size_t i = 0; (i < argList.size()); i++) {
         args.push_back(&argList[i][0]);
@@ -53,8 +53,7 @@ void parseCmd(string input) {
     istringstream cmdStream(stripped);
     StrVec cmd;
     for (string splitString; cmdStream >> splitString;) {cmd.push_back(splitString);}
-    //while (ss >> splitString) {cmd.push_back(splitString);cout << splitString + " ";}
-    //while (ss >> splitString) {cmd.push_back(splitString);}
+
     // Execute the command
     myExec(cmd);
 }  // End of the 'parseCmd' method
@@ -77,8 +76,13 @@ int main(int argc, char** argv) {
 	if (exit(line)) {return 0;}
         // Test if user entered a comment
         if (line[0] != '#' && !line.empty()) {
-            // Process the user input
-            parseCmd(line);
+            const int pid = fork();
+            if (pid == 0) {
+                // Process the user input
+                parseCmd(line);
+	    } else {
+                waitpid(pid, nullptr, 0); 
+	    }
         }
     }
     return 0;
