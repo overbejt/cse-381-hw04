@@ -38,20 +38,22 @@ void  myExec(StrVec argList) {
  * This is a helper method for parsing the command that the user enterd.
  */
 void parseCmd(string input) {
-    // Strip the quotes
-    istringstream ss(input);
-    input = "";
-    string stripped;
-    ss >> quoted(stripped);
-    stripped += " ";
-    cout << ss.str() << endl;
-    while (ss >> quoted(input)) {stripped += input;}
-            
-    // Repeat the input to the user
-    cout << "Running: " << stripped << endl;
+//    // Strip the quotes
+//    istringstream ss(input);
+//    input = "";
+//    string stripped;
+//    ss >> quoted(stripped);
+//    stripped += " ";
+//    cout << ss.str() << endl;
+//    while (ss >> quoted(input)) {stripped += input;}
+//            
+//    // Repeat the input to the user
+//    cout << "Running: " << stripped << endl;
+    
+    cout << "Running: " << input << endl;
 
     // Split the command up into a StrVec
-    istringstream cmdStream(stripped);
+    istringstream cmdStream(input);  // 
     StrVec cmd;
     for (string splitString; cmdStream >> splitString;) {
         cmd.push_back(splitString);
