@@ -8,12 +8,30 @@
  */
 
 #include <iostream>
+#include <unistd.h>
+//#include <sys/wait.h>
 #include <sstream>
 #include <string>
 #include <iomanip>
+#include <vector>
 
 using namespace std;
+using StrVec = vector<string>;
 
+/**
+ * This is a helper method for building up a system call.  It is borrowed from
+ * lab 3 supplemental pdf. 
+ */
+void myExec(StrVec cmd) {
+    vector<char*> args;
+    for (size_t i = 0; (i < cmd.size()); i++) {
+        args.push_back(&cmd[i][0]);
+    }
+    // nullptr is very important
+    args.push_back(nullptr);
+
+    execvp(args[0], &args[0]);
+}  // End of the 'myExec' method
 /**
  * This is a helper method for parsing the command that the user enterd.
  */
@@ -28,6 +46,14 @@ void parseCmd(string input) {
             
     // Repeat the input to the user
     cout << "Running: " << stripped << endl;
+
+    // Split the command up into a StrVec
+    istringstream cmdStream(stripped);
+    string splitString;
+    StrVec cmd;
+    while (ss >> splitString) {cmd.push_back(splitString);}
+    // Execute the command
+    myExec(cmd);
 }  // End of the 'parseCmd' method
 
 /**
