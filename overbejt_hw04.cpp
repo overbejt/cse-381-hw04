@@ -79,11 +79,13 @@ int main(int argc, char** argv) {
         // Test if user entered a comment
         if (line[0] != '#' && !line.empty()) {
             const int pid = fork();
+            int exitCode;
             if (pid == 0) {
                 // Process the user input
                 parseCmd(line);
             } else {
-                waitpid(pid, nullptr, 0); 
+                waitpid(pid, &exitCode, 0); 
+                cout << "Exit code: " << exitCode << endl;
             }
         }
     }
