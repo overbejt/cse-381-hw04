@@ -15,7 +15,7 @@
 using namespace std;
 
 /**
- *This is a helper method for parsing the command that the user enterd.
+ * This is a helper method for parsing the command that the user enterd.
  */
 void parseCmd(string input) {
     // Strip the quotes
@@ -31,14 +31,14 @@ void parseCmd(string input) {
 }  // End of the 'parseCmd' method
 
 /**
- *This is a helper method for determining if the user wants to exit the program.
+ * This is a helper method for determining if the user wants to exit the program.
  */
 bool exit(string input) {
     return input.find("exit") != string::npos;
 }  // End of the 'exit' method
 
 /*
- * 
+ * The  main method 
  */
 int main(int argc, char** argv) {
     // Main loop
@@ -54,4 +54,3 @@ int main(int argc, char** argv) {
     }
     return 0;
 }  // End of 'main'
-
