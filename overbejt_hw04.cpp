@@ -44,6 +44,7 @@ void parseCmd(string input) {
     string stripped;
     ss >> quoted(stripped);
     stripped += " ";
+    cout << ss.str() << endl;
     while (ss >> quoted(input)) {stripped += input;}
             
     // Repeat the input to the user
@@ -78,6 +79,7 @@ int main(int argc, char** argv) {
     if (exit(line)) {return 0;}
         // Test if user entered a comment
         if (line[0] != '#' && !line.empty()) {
+            // Fork the process
             const int pid = fork();
             int exitCode;
             if (pid == 0) {
