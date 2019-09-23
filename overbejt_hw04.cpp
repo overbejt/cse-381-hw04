@@ -109,7 +109,13 @@ int main(int argc, char** argv) {
     if (exit(line)) {return 0;}
         // Test if user entered a comment
         if (line[0] != '#' && !line.empty()) {
-            initProcess(line);
+            if (line.substr(0, 6) == "SERIAL") {
+                cout << "you entered parallel" << endl;
+            } else if (line.substr(0, 8) == "PARALLEL") {
+                cout << "you entered parallel" << endl;
+            } else {
+                initProcess(line);
+            }
         }
     }
     return 0;
