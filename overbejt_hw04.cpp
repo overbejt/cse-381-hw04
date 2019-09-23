@@ -21,6 +21,15 @@ using namespace std;
 using StrVec = vector<string>;
 
 /**
+ * This is a helper method for when the user wants to run a batch of bash 
+ * commands in serial.
+ * @param fileName The name of the file. 
+ */
+void serial(string fileName) {
+    cout << "serial" << endl;
+}  // End of the 'fileName' method
+
+/**
  * This is a helper method for executing system calls supplied by the user.  
  * It is borrowed from the supplemental pdf from lab 4.
  * 

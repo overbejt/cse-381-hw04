@@ -25,6 +25,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>simple.sh</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -46,6 +47,8 @@
         </linkerTool>
       </compileType>
       <item path="overbejt_hw04.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="simple.sh" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -75,6 +78,8 @@
         </linkerTool>
       </compileType>
       <item path="overbejt_hw04.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="simple.sh" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
