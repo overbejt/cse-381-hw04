@@ -46,9 +46,11 @@ void parseCmd(string input) {
     for (string splitString; cmdStream >> splitString;) {
         // Handle string inputs
         if (splitString[0] == '"') { 
+            // Concatenate the entire string as one line
             string ending;
             getline(cmdStream, ending);
             splitString += ending;
+            // Removing quotes
             splitString.erase(remove(splitString.begin(), 
                     splitString.end(), '\"'), splitString.end());
         }
