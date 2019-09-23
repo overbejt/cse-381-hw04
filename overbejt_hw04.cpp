@@ -81,8 +81,12 @@ int main(int argc, char** argv) {
             const int pid = fork();
             int exitCode;
             if (pid == 0) {
-                // Process the user input
-                parseCmd(line);
+                try {
+                    // Process the user input
+                    parseCmd(line);
+                } catch (const exception& e) {
+                    cout << e.what() << endl;
+                }
             } else {
                 waitpid(pid, &exitCode, 0); 
                 cout << "Exit code: " << exitCode << endl;
