@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 	// Test if user wants to exit
 	if (exit(line)) {return 0;}
         // Test if user entered a comment
-        if (line[0] != '#') {
+        if (line[0] != '#' && !line.empty()) {
             // Strip the quotes
             istringstream ss(line);
             line = "";
