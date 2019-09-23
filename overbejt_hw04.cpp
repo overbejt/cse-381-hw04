@@ -18,8 +18,16 @@ using namespace std;
  *This is a helper method for parsing the command that the user enterd.
  */
 void parseCmd(string input) {
-    // Make it do stuff
-    
+    // Strip the quotes
+    istringstream ss(input);
+    input = "";
+    string stripped;
+    ss >> quoted(stripped);
+    stripped += " ";
+    while (ss >> quoted(input)) {stripped += input;}
+            
+    // Repeat the input to the user
+    cout << "Running: " << stripped << endl;
 }  // End of the 'parseCmd' method
 
 /**
@@ -40,19 +48,10 @@ int main(int argc, char** argv) {
 	if (exit(line)) {return 0;}
         // Test if user entered a comment
         if (line[0] != '#' && !line.empty()) {
-            // Strip the quotes
-            istringstream ss(line);
-            line = "";
-            string stripped;
-            ss >> quoted(stripped);
-            stripped += " ";
-            while (ss >> quoted(line)) {stripped += line;}
-            
-            // Repeat the input to the user
-            cout << "Running: " << stripped << endl;
+            // Process the user input
+            parseCmd(line);
         }
     }
-
     return 0;
 }  // End of 'main'
 
