@@ -15,6 +15,14 @@
 using namespace std;
 
 /**
+ *This is a helper method for parsing the command that the user enterd.
+ */
+void parseCmd(string input) {
+    // Make it do stuff
+    
+}  // End of the 'parseCmd' method
+
+/**
  *This is a helper method for determining if the user wants to exit the program.
  */
 bool exit(string input) {
