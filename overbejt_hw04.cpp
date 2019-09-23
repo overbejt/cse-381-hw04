@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -19,15 +20,6 @@
 
 using namespace std;
 using StrVec = vector<string>;
-
-/**
- * This is a helper method for when the user wants to run a batch of bash 
- * commands in serial.
- * @param fileName The name of the file. 
- */
-void serial(string fileName) {
-    cout << "serial" << endl;
-}  // End of the 'fileName' method
 
 /**
  * This is a helper method for executing system calls supplied by the user.  
@@ -96,6 +88,21 @@ void initProcess(string inCmd) {
 }  // End of the 'initProcess' method
 
 /**
+ * This is a helper method for when the user wants to run a batch of bash 
+ * commands in serial.
+ * @param fileName The name of the file. 
+ */
+void serial(string fileName) {
+    cout << "file name: " << fileName << endl;
+    ifstream contents(fileName, ifstream::in);
+    for (string line; getline(contents, line);) {
+        cout << line << endl;
+        initProcess(line);
+    }
+    contents.close();
+}  // End of the 'fileName' method
+
+/**
  * This is a helper method for determining if the user wants to exit 
  * the program.
  * 
@@ -119,7 +126,8 @@ int main(int argc, char** argv) {
         // Test if user entered a comment
         if (line[0] != '#' && !line.empty()) {
             if (line.substr(0, 6) == "SERIAL") {
-                cout << "you entered parallel" << endl;
+                cout << "you entered serial" << endl;
+                serial(line.substr(7));
             } else if (line.substr(0, 8) == "PARALLEL") {
                 cout << "you entered parallel" << endl;
             } else {
