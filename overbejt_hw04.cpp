@@ -23,6 +23,8 @@ using StrVec = vector<string>;
 /**
  * This is a helper method for executing system calls supplied by the user.  
  * It is borrowed from the supplemental pdf from lab 4.
+ * 
+ * @param argList The command that the user entered, as an array of strings.
  */
 void  myExec(StrVec argList) {
     std::vector<char*> args;
@@ -36,6 +38,8 @@ void  myExec(StrVec argList) {
 
 /**
  * This is a helper method for parsing the command that the user entered.
+ * 
+ * @param input The command that the user entered.
  */
 void parseCmd(string input) {    
     cout << "Running: " << input << endl;
@@ -56,15 +60,41 @@ void parseCmd(string input) {
         }
         cmd.push_back(splitString);
     }
-
     // Execute the command
     myExec(cmd);
 }  // End of the 'parseCmd' method
 
 /**
- * This is a helper method for determining if the user wants to exit the program.
+ * This is a helper method for running the process.
+ * 
+ * @param inCmd The command that the user entered.
+ */
+void initProcess(string inCmd) {
+    // Fork the process
+    const int pid = fork();
+    int exitCode;
+    if (pid == 0) {
+        try {
+            // Process the user input
+            parseCmd(inCmd);
+        } catch (const exception& e) {
+            cout << e.what() << endl;
+        }
+    } else {
+        waitpid(pid, &exitCode, 0); 
+        cout << "Exit code: " << exitCode << endl;
+    }
+}  // End of the 'initProcess' method
+
+/**
+ * This is a helper method for determining if the user wants to exit 
+ * the program.
+ * 
+ * @param input The command that the user entered.
+ * @return True if the user typed 'exit' and false if not.
  */
 bool exit(string input) {
+    // This might cause problems when exiting an ssh session
     return input.find("exit") != string::npos;
 }  // End of the 'exit' method
 
@@ -79,20 +109,7 @@ int main(int argc, char** argv) {
     if (exit(line)) {return 0;}
         // Test if user entered a comment
         if (line[0] != '#' && !line.empty()) {
-            // Fork the process
-            const int pid = fork();
-            int exitCode;
-            if (pid == 0) {
-                try {
-                    // Process the user input
-                    parseCmd(line);
-                } catch (const exception& e) {
-                    cout << e.what() << endl;
-                }
-            } else {
-                waitpid(pid, &exitCode, 0); 
-                cout << "Exit code: " << exitCode << endl;
-            }
+            initProcess(line);
         }
     }
     return 0;
