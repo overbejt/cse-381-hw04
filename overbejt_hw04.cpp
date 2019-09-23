@@ -122,7 +122,7 @@ void serial(string fileName) {
     cout << "file name: " << fileName << endl;
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
-        cout << line << endl;
+        //cout << line << endl;
        // initProcess(line);
         preChecks(line);
     }
