@@ -30,7 +30,7 @@ void serial(string fileName);
 int preChecks(string input);
 void initProcess(string inCmd);
 void parseCmd(string input);    
-void  myExec(StrVec argList);
+void myExec(StrVec argList);
 void parallel(string fileName);
 void initProcessParallel(CmdVec commands);
 
@@ -111,21 +111,20 @@ void initProcessParallel(CmdVec commands) {
     Pid_CmdMap pids;
     // Loop and fork the process
     for(const auto cmd : commands) {
-        const int pid = fork();
-        pids.insert({pid, cmd});
-    }
-    for (const auto process : pids) {
-        int exitCode;
-        if (process.first == 0) {
+            const int pid = fork();
+            pids.insert({pid, cmd});
+        if (pid == 0) {
             try {
                 // Process the user input
-                parseCmd(process.second);
+                preChecks(cmd);
+	        cout << "Processing: " << cmd << endl;
             } catch (const exception& e) {
                 cout << e.what() << endl;
             }
         } else {
-            waitpid(process.first, &exitCode, 0); 
-            cout << "Exit code: " << exitCode << endl;
+            int exitCode;
+    	    waitpid(pid, &exitCode, 0);
+	    cout << "Exit code: " << exitCode << endl;
         }
     }
 }  // End of the 'initProcessParallel' method
