@@ -16,13 +16,12 @@
 #include <string>
 #include <iomanip>
 #include <vector>
-#include <unordered_map>
 
 using namespace std;
 using StrVec = vector<string>;
 using CmdVec = vector<string>;
 using ExitVec = vector<int>;
-using Pid_CmdMap = unordered_map<string, int>;
+using PidVec = vector<int>;
 
 // Prototypes
 bool exit(string input);
@@ -108,27 +107,46 @@ void initProcess(string inCmd) {
  * @param commands The vector of commands that the user entered.
  */
 void initProcessParallel(CmdVec commands) {
-    Pid_CmdMap pids;
+    PidVec pids;
     // Loop and fork the process
     for (const auto cmd : commands) {
         const int pid = fork();
-        pids.insert({cmd, pid});        
+        pids.push_back(pid);
+        if (pid == 0) {
+            try {
+                // Process the user input
+                preChecks(cmd);
+                cout << "Processing pid: " << pid << endl;
+            } catch (const exception& e) {
+                cout << e.what() << endl;
+            }
+        } else {
+            int exitCode;
+            waitpid(pid, &exitCode, 0);
+            cout << "Exit code: " << exitCode << endl;
+        }
     }
-//    for (const auto process : pids) {
-//        if (process.second == 0) {
-//            try {
-//                // Process the user input
-//                preChecks(process.first);
-//                cout << "Processing: " << process.first << endl;
-//            } catch (const exception& e) {
-//                cout << e.what() << endl;
-//            }
-//        } else {
-//            int exitCode;
-//            waitpid(process.second, &exitCode, 0);
-//            cout << "Exit code: " << exitCode << endl;
-//        }
-//    }    
+    // See if on child process
+    //if (pid == 0) {
+    //    try {
+    //        // Process the user input
+    //        preChecks(cmd);
+    //        cout << "Processing pid: " << pid << endl;
+    //    } catch (const exception& e) {
+    //        cout << e.what() << endl;
+    //    }
+    //} else {
+    //    //int exitCode;
+    //    //waitpid(process.second, &exitCode, 0);
+    //    //cout << "Exit code: " << exitCode << endl;
+    //}
+    //
+    //for (const auto process : pids) {
+    //        int exitCode;
+    //        waitpid(process, &exitCode, 0);
+    //        cout << "Pid: " << process;
+    //        cout << "\tExit code: " << exitCode << endl;
+    //}    
 }  // End of the 'initProcessParallel' method
 
 int preChecks(string input) {
