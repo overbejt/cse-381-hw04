@@ -16,13 +16,13 @@
 #include <string>
 #include <iomanip>
 #include <vector>
-
+#include <unordered_map>
 
 using namespace std;
 using StrVec = vector<string>;
 using CmdVec = vector<string>;
 using ExitVec = vector<int>;
-using PidVec = vector<int>;
+using Pid_CmdMap = unordered_map<int, string>;
 
 // Prototypes
 bool exit(string input);
@@ -108,24 +108,25 @@ void initProcess(string inCmd) {
  * @param inCmd The command that the user entered.
  */
 void initProcessParallel(CmdVec commands) {
-    PidVec pids;  // Needs to be unordered_map<pid,cmd>
-    const int pid;
+    Pid_CmdMap pids;
     // Loop and fork the process
     for(const auto cmd : commands) {
-        pid = fork();
-        pids.push_back(pid);
+        const int pid = fork();
+        pids.insert({pid, cmd});
     }
-    int exitCode;
-    if (pid == 0) {
-        try {
-            // Process the user input
-            parseCmd(cmd);
-        } catch (const exception& e) {
-            cout << e.what() << endl;
+    for (const auto process : pids) {
+        int exitCode;
+        if (process.first == 0) {
+            try {
+                // Process the user input
+                parseCmd(process.second);
+            } catch (const exception& e) {
+                cout << e.what() << endl;
+            }
+        } else {
+            waitpid(process.first, &exitCode, 0); 
+            cout << "Exit code: " << exitCode << endl;
         }
-    } else {
-        waitpid(pid, &exitCode, 0); 
-        cout << "Exit code: " << exitCode << endl;
     }
 }  // End of the 'initProcessParallel' method
 
