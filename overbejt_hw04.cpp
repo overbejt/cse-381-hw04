@@ -108,9 +108,10 @@ void initProcess(string inCmd) {
  */
 void initProcessParallel(CmdVec commands) {
     PidVec pids;
+    int pid;
     // Loop and fork the process
     for (const auto cmd : commands) {
-        const int pid = fork();
+        pid = fork();
         pids.push_back(pid);
         if (pid == 0) {
             try {
@@ -141,12 +142,13 @@ void initProcessParallel(CmdVec commands) {
     //    //cout << "Exit code: " << exitCode << endl;
     //}
    
-   for (const auto process : pids) {
+   //for (const auto process : pids) {
            int exitCode;
-           waitpid(process, &exitCode, 0);
+           //waitpid(process, &exitCode, 0);
+           waitpid(pid, &exitCode, 0);
            cout << "Pid: " << process;
            cout << "\tExit code: " << exitCode << endl;
-   }    
+   //}    
 }  // End of the 'initProcessParallel' method
 
 int preChecks(string input) {
