@@ -105,7 +105,7 @@ void initProcess(string inCmd) {
  * This is a helper method for running the process.
  * It will run it in parallel.
  * 
- * @param inCmd The command that the user entered.
+ * @param commands The vector of commands that the user entered.
  */
 void initProcessParallel(CmdVec commands) {
     Pid_CmdMap pids;
@@ -141,6 +141,8 @@ int preChecks(string input) {
             serial(input.substr(7));
         } else if (input.substr(0, 8) == "PARALLEL") {
             cout << "you entered parallel" << endl;
+	    cout << "substr: " << input.substr(9) << endl;
+	    parallel(input.substr(9));
         } else {
             initProcess(input);
         }
