@@ -110,24 +110,21 @@ void initProcess(string inCmd) {
 void initProcessParallel(CmdVec commands) {
     PidVec pids;
     // Loop and fork the process
-    for( auto cmd : commands) {
+    for(const auto cmd : commands) {
         const int pid = fork();
-        pids.push_back(*pid);
+        pids.push_back(pid);
     }
-    // Loop through all of the pids
-    for (auto pid : pids) {
-        int exitCode;
-        if (pid == 0) {
-            try {
-                // Process the user input
-                parseCmd(inCmd);
-            } catch (const exception& e) {
-                cout << e.what() << endl;
-            }
-        } else {
-            waitpid(pid, &exitCode, 0); 
-            cout << "Exit code: " << exitCode << endl;
+    int exitCode;
+    if (pid == 0) {
+        try {
+            // Process the user input
+            parseCmd(cmd);
+        } catch (const exception& e) {
+            cout << e.what() << endl;
         }
+    } else {
+        waitpid(pid, &exitCode, 0); 
+        cout << "Exit code: " << exitCode << endl;
     }
 }  // End of the 'initProcessParallel' method
 
