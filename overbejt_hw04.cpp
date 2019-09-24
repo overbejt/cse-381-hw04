@@ -21,6 +21,7 @@
 using namespace std;
 using StrVec = vector<string>;
 using CmdVec = vector<string>;
+using ExitVec = vector<int>;
 
 // Prototypes
 bool exit(string input);
@@ -30,6 +31,7 @@ void initProcess(string inCmd);
 void parseCmd(string input);    
 void  myExec(StrVec argList);
 void parallel(string fileName);
+void initProcessParallel(CmdVec commands);
 
 /**
  * This is a helper method for executing system calls supplied by the user.  
@@ -97,6 +99,29 @@ void initProcess(string inCmd) {
     }
 }  // End of the 'initProcess' method
 
+/**
+ * This is a helper method for running the process.
+ * It will run it in parallel.
+ * 
+ * @param inCmd The command that the user entered.
+ */
+void initProcessParallel(CmdVec commands) {
+    // Fork the process
+    const int pid = fork();
+    int exitCode;
+    if (pid == 0) {
+        try {
+            // Process the user input
+            parseCmd(inCmd);
+        } catch (const exception& e) {
+            cout << e.what() << endl;
+        }
+    } else {
+        waitpid(pid, &exitCode, 0); 
+        cout << "Exit code: " << exitCode << endl;
+    }
+}  // End of the 'initProcessParallel' method
+
 int preChecks(string input) {
     // Test if user wants to exit
     if (exit(input)) {
@@ -124,7 +149,7 @@ void serial(string fileName) {
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
         // Run the pre checks before executing
-        preChecks(line);
+        preChecks(line);  // Or just send it to initProcess
     }
     contents.close();
 }  // End of the 'serial' method
@@ -138,10 +163,12 @@ void parallel(string fileName) {
     CmdVec commands;
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
-        // Run the pre checks before executing
-        preChecks(line);
+        // Push the command onto the CmdVec
+        commands.push_back(line);
     }
     contents.close();
+    // Send the commands to be executed
+
 }  // End of the 'parallel' method
 
 /**
