@@ -22,7 +22,7 @@ using namespace std;
 using StrVec = vector<string>;
 using CmdVec = vector<string>;
 using ExitVec = vector<int>;
-using Pid_CmdMap = unordered_map<int, string>;
+using Pid_CmdMap = unordered_map<string, int>;
 
 // Prototypes
 bool exit(string input);
@@ -110,23 +110,25 @@ void initProcess(string inCmd) {
 void initProcessParallel(CmdVec commands) {
     Pid_CmdMap pids;
     // Loop and fork the process
-    for(const auto cmd : commands) {
-            const int pid = fork();
-            pids.insert({pid, cmd});
-        if (pid == 0) {
-            try {
-                // Process the user input
-                preChecks(cmd);
-	        cout << "Processing: " << cmd << endl;
-            } catch (const exception& e) {
-                cout << e.what() << endl;
-            }
-        } else {
-            int exitCode;
-    	    waitpid(pid, &exitCode, 0);
-	    cout << "Exit code: " << exitCode << endl;
-        }
+    for (const auto cmd : commands) {
+        const int pid = fork();
+        pids.insert({cmd, pid});        
     }
+//    for (const auto process : pids) {
+//        if (process.second == 0) {
+//            try {
+//                // Process the user input
+//                preChecks(process.first);
+//                cout << "Processing: " << process.first << endl;
+//            } catch (const exception& e) {
+//                cout << e.what() << endl;
+//            }
+//        } else {
+//            int exitCode;
+//            waitpid(process.second, &exitCode, 0);
+//            cout << "Exit code: " << exitCode << endl;
+//        }
+//    }    
 }  // End of the 'initProcessParallel' method
 
 int preChecks(string input) {
@@ -139,9 +141,9 @@ int preChecks(string input) {
         if (input.substr(0, 6) == "SERIAL") {
             serial(input.substr(7));
         } else if (input.substr(0, 8) == "PARALLEL") {
-            cout << "you entered parallel" << endl;
-	    cout << "substr: " << input.substr(9) << endl;
-	    parallel(input.substr(9));
+            cout << "you entered parallel" << endl;  // TMP!!
+            cout << "substr: " << input.substr(9) << endl;  // TMP!!
+            parallel(input.substr(9));
         } else {
             initProcess(input);
         }
@@ -177,7 +179,7 @@ void parallel(string fileName) {
     }
     contents.close();
     // Send the commands to be executed
-
+    initProcessParallel(commands);
 }  // End of the 'parallel' method
 
 /**
@@ -201,7 +203,7 @@ int main(int argc, char** argv) {
     while (std::cout << "> ", getline(cin, line)) {
         // Run some pre checks
         int exitReady =  preChecks(line);
-	if (exitReady == 0) {return 0;}
+        if (exitReady == 0) {return 0;}
     }
     return 0;
 }  // End of 'main'
