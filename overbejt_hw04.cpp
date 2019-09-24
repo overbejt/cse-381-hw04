@@ -22,6 +22,7 @@ using namespace std;
 using StrVec = vector<string>;
 using CmdVec = vector<string>;
 using ExitVec = vector<int>;
+using PidVec = vector<int>;
 
 // Prototypes
 bool exit(string input);
@@ -79,7 +80,8 @@ void parseCmd(string input) {
 
 /**
  * This is a helper method for running the process.
- * 
+ * It will run it in series.
+ *
  * @param inCmd The command that the user entered.
  */
 void initProcess(string inCmd) {
@@ -106,19 +108,26 @@ void initProcess(string inCmd) {
  * @param inCmd The command that the user entered.
  */
 void initProcessParallel(CmdVec commands) {
-    // Fork the process
-    const int pid = fork();
-    int exitCode;
-    if (pid == 0) {
-        try {
-            // Process the user input
-            parseCmd(inCmd);
-        } catch (const exception& e) {
-            cout << e.what() << endl;
+    PidVec pids;
+    // Loop and fork the process
+    for( auto cmd : commands) {
+        const int pid = fork();
+        pids.push_back(*pid);
+    }
+    // Loop through all of the pids
+    for (auto pid : pids) {
+        int exitCode;
+        if (pid == 0) {
+            try {
+                // Process the user input
+                parseCmd(inCmd);
+            } catch (const exception& e) {
+                cout << e.what() << endl;
+            }
+        } else {
+            waitpid(pid, &exitCode, 0); 
+            cout << "Exit code: " << exitCode << endl;
         }
-    } else {
-        waitpid(pid, &exitCode, 0); 
-        cout << "Exit code: " << exitCode << endl;
     }
 }  // End of the 'initProcessParallel' method
 
