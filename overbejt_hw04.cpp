@@ -108,10 +108,11 @@ void initProcess(string inCmd) {
  * @param inCmd The command that the user entered.
  */
 void initProcessParallel(CmdVec commands) {
-    PidVec pids;
+    PidVec pids;  // Needs to be unordered_map<pid,cmd>
+    const int pid;
     // Loop and fork the process
     for(const auto cmd : commands) {
-        const int pid = fork();
+        pid = fork();
         pids.push_back(pid);
     }
     int exitCode;
