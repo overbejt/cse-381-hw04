@@ -121,9 +121,9 @@ void initProcessParallel(CmdVec commands) {
                 cout << e.what() << endl;
             }
         } else {
-            int exitCode;
-            waitpid(pid, &exitCode, 0);
-            cout << "Exit code: " << exitCode << endl;
+         //   int exitCode;
+         //   waitpid(pid, &exitCode, 0);
+         //   cout << "Exit code: " << exitCode << endl;
         }
     }
     // See if on child process
@@ -140,13 +140,13 @@ void initProcessParallel(CmdVec commands) {
     //    //waitpid(process.second, &exitCode, 0);
     //    //cout << "Exit code: " << exitCode << endl;
     //}
-    //
-    //for (const auto process : pids) {
-    //        int exitCode;
-    //        waitpid(process, &exitCode, 0);
-    //        cout << "Pid: " << process;
-    //        cout << "\tExit code: " << exitCode << endl;
-    //}    
+   
+   for (const auto process : pids) {
+           int exitCode;
+           waitpid(process, &exitCode, 0);
+           cout << "Pid: " << process;
+           cout << "\tExit code: " << exitCode << endl;
+   }    
 }  // End of the 'initProcessParallel' method
 
 int preChecks(string input) {
