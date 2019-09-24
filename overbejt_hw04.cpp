@@ -20,6 +20,7 @@
 
 using namespace std;
 using StrVec = vector<string>;
+using CmdVec = vector<string>;
 
 // Prototypes
 bool exit(string input);
@@ -28,6 +29,7 @@ int preChecks(string input);
 void initProcess(string inCmd);
 void parseCmd(string input);    
 void  myExec(StrVec argList);
+void parallel(string fileName);
 
 /**
  * This is a helper method for executing system calls supplied by the user.  
@@ -119,15 +121,28 @@ int preChecks(string input) {
  * @param fileName The name of the file. 
  */
 void serial(string fileName) {
-    cout << "file name: " << fileName << endl;
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
-        //cout << line << endl;
-       // initProcess(line);
+        // Run the pre checks before executing
         preChecks(line);
     }
     contents.close();
-}  // End of the 'fileName' method
+}  // End of the 'serial' method
+
+/**
+ * This is a helper method for when the user wants to run a batch of bash 
+ * commands in parallel.
+ * @param fileName The name of the file. 
+ */
+void parallel(string fileName) {
+    CmdVec commands;
+    ifstream contents(fileName, ifstream::in);
+    for (string line; getline(contents, line);) {
+        // Run the pre checks before executing
+        preChecks(line);
+    }
+    contents.close();
+}  // End of the 'parallel' method
 
 /**
  * This is a helper method for determining if the user wants to exit 
