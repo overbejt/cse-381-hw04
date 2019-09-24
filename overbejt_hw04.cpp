@@ -146,7 +146,8 @@ void initProcessParallel(CmdVec commands) {
            int exitCode;
            //waitpid(process, &exitCode, 0);
            waitpid(pid, &exitCode, 0);
-           cout << "Pid: " << process;
+           //cout << "Pid: " << process;
+           cout << "Pid: " << pid;
            cout << "\tExit code: " << exitCode << endl;
    //}    
 }  // End of the 'initProcessParallel' method
