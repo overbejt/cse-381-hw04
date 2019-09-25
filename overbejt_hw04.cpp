@@ -113,19 +113,19 @@ void initProcessParallel(CmdVec commands) {
     for (const auto cmd : commands) {
         const int pid = fork();
         pids.push_back(pid);
-//        if (pid == 0) {
-        try {
-            // Process the user input
-            preChecks(cmd);
-            cout << "Processing pid: " << pid << endl;
-        } catch (const exception& e) {
-            cerr << e.what() << endl;
-        }
+        if (pid == 0) {
+            try {
+                // Process the user input
+                preChecks(cmd);
+                cout << "Processing: " << cmd << endl;
+            } catch (const exception& e) {
+                cerr << e.what() << endl;
+            }
 //        } else {
 //         //   int exitCode;
 //         //   waitpid(pid, &exitCode, 0);
 //         //   cout << "Exit code: " << exitCode << endl;
-//        }
+        }
     }
     
     for (const auto pid : pids) {
@@ -193,7 +193,7 @@ int preChecks(string input) {
         } else if (input.substr(0, 8) == "PARALLEL") {
             cout << "you entered parallel" << endl;  // TMP!!
             cout << "substr: " << input.substr(9) << endl;  // TMP!!
-            parallel(input.substr(9));
+//            parallel(input.substr(9));
         } else {
             initProcess(input);
         }
