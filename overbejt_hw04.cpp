@@ -113,20 +113,36 @@ void initProcessParallel(CmdVec commands) {
     for (const auto cmd : commands) {
         pid = fork();
         pids.push_back(pid);
-        if (pid == 0) {
-            try {
-                // Process the user input
-                preChecks(cmd);
-                cout << "Processing pid: " << pid << endl;
-            } catch (const exception& e) {
-                cout << e.what() << endl;
-            }
-        } else {
-         //   int exitCode;
-         //   waitpid(pid, &exitCode, 0);
-         //   cout << "Exit code: " << exitCode << endl;
+//        if (pid == 0) {
+//            try {
+//                // Process the user input
+//                preChecks(cmd);
+//                cout << "Processing pid: " << pid << endl;
+//            } catch (const exception& e) {
+//                cout << e.what() << endl;
+//            }
+//        } else {
+//         //   int exitCode;
+//         //   waitpid(pid, &exitCode, 0);
+//         //   cout << "Exit code: " << exitCode << endl;
+//        }
+    }
+    
+    for (const auto cmd : commands) {
+        try {
+            // Process the user input
+            preChecks(cmd);
+            cout << "Processing pid: " << pid << endl;
+        } catch (const exception& e) {
+            cout << e.what() << endl;
         }
     }
+    
+    for (const auto pid : pids) {
+        int exitCode;
+        waitpid(pid, &exitCode, 0);
+    }
+    
     // See if on child process
 //    if (pid == 0) {
 //        try {
@@ -142,14 +158,20 @@ void initProcessParallel(CmdVec commands) {
 //        //cout << "Exit code: " << exitCode << endl;
 //    }
 
-//   for (const auto process : pids) {
-           int exitCode;
-//           waitpid(process, &exitCode, 0);
-           waitpid(pid, &exitCode, 0);
-//           cout << "Pid: " << process;
-           cout << "Pid: " << pid;
-           cout << "\tExit code: " << exitCode << endl;
-//   }    
+//    int counter = 0;
+//    for (const auto process : pids) {
+//        int exitCode;
+//        waitpid(process, &exitCode, 0);
+//        try {
+//            // Process the user input
+//            preChecks(commands.at(counter));
+//            cout << "Processing pid: " << pid << endl;
+//        } catch (const exception& e) {
+//            cerr << e.what() << endl;
+//        }
+//       cout << "\tExit code: " << exitCode << endl;
+//       counter++;
+//    }    
 }  // End of the 'initProcessParallel' method
 
 int preChecks(string input) {
