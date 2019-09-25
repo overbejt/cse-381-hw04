@@ -122,7 +122,7 @@ void serial(string fileName) {
     cout << "file name: " << fileName << endl;
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
-        //cout << line << endl;
+//        cout << line << endl;
        // initProcess(line);
         preChecks(line);
     }
@@ -150,7 +150,7 @@ int main(int argc, char** argv) {
     while (std::cout << "> ", getline(cin, line)) {
         // Run some pre checks
         int exitReady =  preChecks(line);
-	if (exitReady == 0) {return 0;}
+        if (exitReady == 0) {return 0;}
     }
     return 0;
 }  // End of 'main'
