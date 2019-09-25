@@ -128,28 +128,28 @@ void initProcessParallel(CmdVec commands) {
         }
     }
     // See if on child process
-    //if (pid == 0) {
-    //    try {
-    //        // Process the user input
-    //        preChecks(cmd);
-    //        cout << "Processing pid: " << pid << endl;
-    //    } catch (const exception& e) {
-    //        cout << e.what() << endl;
-    //    }
-    //} else {
-    //    //int exitCode;
-    //    //waitpid(process.second, &exitCode, 0);
-    //    //cout << "Exit code: " << exitCode << endl;
-    //}
-   
-   //for (const auto process : pids) {
+//    if (pid == 0) {
+//        try {
+//            // Process the user input
+//            preChecks(cmd);
+//            cout << "Processing pid: " << pid << endl;
+//        } catch (const exception& e) {
+//            cout << e.what() << endl;
+//        }
+//    } else {
+//        //int exitCode;
+//        //waitpid(process.second, &exitCode, 0);
+//        //cout << "Exit code: " << exitCode << endl;
+//    }
+
+//   for (const auto process : pids) {
            int exitCode;
-           //waitpid(process, &exitCode, 0);
+//           waitpid(process, &exitCode, 0);
            waitpid(pid, &exitCode, 0);
-           //cout << "Pid: " << process;
+//           cout << "Pid: " << process;
            cout << "Pid: " << pid;
            cout << "\tExit code: " << exitCode << endl;
-   //}    
+//   }    
 }  // End of the 'initProcessParallel' method
 
 int preChecks(string input) {
