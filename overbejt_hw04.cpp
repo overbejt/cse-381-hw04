@@ -131,8 +131,6 @@ int preChecks(string input) {
 void serial(string fileName) {
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
-//        cout << line << endl;
-       // initProcess(line);
         preChecks(line);
     }
     contents.close();
