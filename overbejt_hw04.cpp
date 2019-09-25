@@ -129,7 +129,6 @@ int preChecks(string input) {
  * @param fileName The name of the file. 
  */
 void serial(string fileName) {
-    cout << "file name: " << fileName << endl;
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
 //        cout << line << endl;
