@@ -108,19 +108,19 @@ void initProcess(string inCmd) {
  */
 void initProcessParallel(CmdVec commands) {
     PidVec pids;
-    int pid;
+//    int pid;
     // Loop and fork the process
     for (const auto cmd : commands) {
-        pid = fork();
+        const int pid = fork();
         pids.push_back(pid);
 //        if (pid == 0) {
-//            try {
-//                // Process the user input
-//                preChecks(cmd);
-//                cout << "Processing pid: " << pid << endl;
-//            } catch (const exception& e) {
-//                cout << e.what() << endl;
-//            }
+        try {
+            // Process the user input
+            preChecks(cmd);
+            cout << "Processing pid: " << pid << endl;
+        } catch (const exception& e) {
+            cerr << e.what() << endl;
+        }
 //        } else {
 //         //   int exitCode;
 //         //   waitpid(pid, &exitCode, 0);
@@ -128,20 +128,27 @@ void initProcessParallel(CmdVec commands) {
 //        }
     }
     
-    for (const auto cmd : commands) {
-        try {
-            // Process the user input
-            preChecks(cmd);
-            cout << "Processing pid: " << pid << endl;
-        } catch (const exception& e) {
-            cout << e.what() << endl;
-        }
-    }
-    
     for (const auto pid : pids) {
         int exitCode;
         waitpid(pid, &exitCode, 0);
+        cout << "Exit code: " << exitCode << endl;
     }
+    
+    /** These two made it run in series */
+//    for (const auto cmd : commands) {
+//        try {
+//            // Process the user input
+//            preChecks(cmd);
+//            cout << "Processing pid: " << pid << endl;
+//        } catch (const exception& e) {
+//            cout << e.what() << endl;
+//        }
+//    }
+//    
+//    for (const auto pid : pids) {
+//        int exitCode;
+//        waitpid(pid, &exitCode, 0);
+//    }
     
     // See if on child process
 //    if (pid == 0) {
