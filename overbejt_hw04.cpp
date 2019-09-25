@@ -95,6 +95,14 @@ void initProcess(string inCmd) {
     }
 }  // End of the 'initProcess' method
 
+/**
+ * This is a helper method that will filter out comments and empty lines from 
+ * the user.
+ * 
+ * @param input The input from the user.
+ * @return whether or not the user wants to exit the program.  If so, it returns
+ *         0, otherwise it will return -1.
+ */
 int preChecks(string input) {
     // Test if user wants to exit
     if (exit(input)) {
@@ -110,24 +118,25 @@ int preChecks(string input) {
             initProcess(input);
         }
     }
-    return 888;
+    return -1;
 }  // End of the 'preChecks' method
 
 /**
  * This is a helper method for when the user wants to run a batch of bash 
  * commands in serial.
+ * 
  * @param fileName The name of the file. 
  */
 void serial(string fileName) {
     cout << "file name: " << fileName << endl;
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
-        //cout << line << endl;
+//        cout << line << endl;
        // initProcess(line);
         preChecks(line);
     }
     contents.close();
-}  // End of the 'fileName' method
+}  // End of the 'serial' method
 
 /**
  * This is a helper method for determining if the user wants to exit 
@@ -150,7 +159,7 @@ int main(int argc, char** argv) {
     while (std::cout << "> ", getline(cin, line)) {
         // Run some pre checks
         int exitReady =  preChecks(line);
-	if (exitReady == 0) {return 0;}
+        if (exitReady == 0) {return 0;}
     }
     return 0;
 }  // End of 'main'
