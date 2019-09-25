@@ -50,9 +50,7 @@ void  myExec(StrVec argList) {
  * 
  * @param input The command that the user entered.
  */
-void parseCmd(string input) {    
-    cout << "Running: " << input << endl;
-
+void parseCmd(string input) {        
     // Split the command up into a StrVec
     istringstream cmdStream(input);  
     StrVec cmd;
@@ -66,6 +64,7 @@ void parseCmd(string input) {
             // Removing quotes
             splitString.erase(remove(splitString.begin(), 
                     splitString.end(), '\"'), splitString.end());
+            cout << "Running: " << input << endl;
         }
         cmd.push_back(splitString);
     }
@@ -156,7 +155,7 @@ bool exit(string input) {
 int main(int argc, char** argv) {
     // Main loop
     std::string line;
-    while (std::cout << "> ", getline(cin, line)) {
+    while (getline(cin, line)) {
         // Run some pre checks
         int exitReady =  preChecks(line);
         if (exitReady == 0) {return 0;}
