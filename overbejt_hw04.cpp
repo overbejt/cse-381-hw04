@@ -54,6 +54,7 @@ void parseCmd(string input) {
     // Split the command up into a StrVec
     istringstream cmdStream(input);  
     StrVec cmd;
+    string print = "";
     for (string splitString; cmdStream >> splitString;) {
         // Handle string inputs
         if (splitString[0] == '"') { 
@@ -63,11 +64,12 @@ void parseCmd(string input) {
             splitString += ending;
             // Removing quotes
             splitString.erase(remove(splitString.begin(), 
-                    splitString.end(), '\"'), splitString.end());
-            cout << "Running: " << input << endl;
+                    splitString.end(), '\"'), splitString.end());            
         }
-        cmd.push_back(splitString);
+        cmd.push_back(splitString);    
+        print += splitString + " ";
     }
+    cout << "Running: " << print << endl;
     // Execute the command
     myExec(cmd);
 }  // End of the 'parseCmd' method
