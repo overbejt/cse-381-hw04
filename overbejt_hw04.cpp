@@ -20,10 +20,12 @@
 
 using namespace std;
 using StrVec = vector<string>;
+using PidVec = vecotor<int>;
 
 // Prototypes
 bool exit(string input);
 void serial(string fileName);
+void parallel(StrVec commands);
 int preChecks(string input);
 void initProcess(string inCmd);
 void parseCmd(string input);    
@@ -121,6 +123,16 @@ int preChecks(string input) {
     }
     return -1;
 }  // End of the 'preChecks' method
+
+/**
+ * This is a helper method for processing commands that are meant to be ran in
+ * parallel.
+ * 
+ * @param commands the commands that the user wants to run.
+ */
+void parallel(StrVec commands) {
+    // Todo: a lot of stuff
+}  // End of the 'parallel' method
 
 /**
  * This is a helper method for when the user wants to run a batch of bash 
