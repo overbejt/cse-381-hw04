@@ -91,7 +91,6 @@ void initProcess(string inCmd) {
             // Process the user input
             parseCmd(inCmd);
         } catch (const exception& e) {
-            cout << e.what() << endl;
         }
     } else {
         waitpid(pid, &exitCode, 0); 
@@ -122,7 +121,6 @@ int forkNexec(string cmd) {
                 // Process the child input
                 parseCmd(cmd);
             } catch (const exception& e) {
-                cout << e.what() << endl;
             }
         } else {
             // Return ppid
@@ -212,9 +210,8 @@ void serial(string fileName) {
  * @param input The command that the user entered.
  * @return True if the user typed 'exit' and false if not.
  */
-bool exit(string input) {
-    // This might cause problems when exiting an ssh session
-    return input.find("exit") != string::npos;
+bool exit(string input) {  
+    return input.substr(0, 5) == "exit";
 }  // End of the 'exit' method
 
 /*
