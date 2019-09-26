@@ -144,19 +144,20 @@ void parallel(string fileName) {
     for (auto const cmd : commands) {
         const int pid = fork();
         pids.push_back(pid);
+        preChecks(cmd);
     }        
     // Execute each line
-    for (auto const cmd : commands) {
-        // Test if user wants to exit
-        if (exit(cmd)) {exit(0);}
-        // Test if user entered a comment
-        if (cmd[0] != '#' && !cmd.empty()) {
-//            initProcess(cmd); //
-            try {parseCmd(cmd);} catch (const exception& e) {
-                cout << e.what() << endl;
-            }
-        }
-    }
+//    for (auto const cmd : commands) {
+//        // Test if user wants to exit
+//        if (exit(cmd)) {exit(0);}
+//        // Test if user entered a comment
+//        if (cmd[0] != '#' && !cmd.empty()) {
+////            initProcess(cmd); //
+//            try {parseCmd(cmd);} catch (const exception& e) {
+//                cout << e.what() << endl;
+//            }
+//        }
+//    }
     
     // Todo: why is it not exiting when exit command is passed after running 
     // parallel?
@@ -165,6 +166,7 @@ void parallel(string fileName) {
     for (const auto pid : pids) {
         int exitCode;
         waitpid(pid, &exitCode, 0);
+        cout << "Exit code: " << exitCode << endl;
     }
     cout << "Parallel is finished running." << endl;
 }  // End of the 'parallel' method
