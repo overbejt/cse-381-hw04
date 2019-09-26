@@ -116,7 +116,9 @@ int preChecks(string input) {
         if (input.substr(0, 6) == "SERIAL") {
             serial(input.substr(7));
         } else if (input.substr(0, 8) == "PARALLEL") {
-            cout << "you entered parallel" << endl;
+//            cout << "you entered parallel" << endl;
+//            cout << input.substr(9) << endl;
+            parallel(input.substr(9));
         } else {
             initProcess(input);
         }
