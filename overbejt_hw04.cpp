@@ -109,15 +109,13 @@ void initProcess(string inCmd) {
 int preChecks(string input) {
     // Test if user wants to exit
     if (exit(input)) {
-        return 0;
+        exit(0);
     }
     // Test if user entered a comment
     if (input[0] != '#' && !input.empty()) {
         if (input.substr(0, 6) == "SERIAL") {
             serial(input.substr(7));
         } else if (input.substr(0, 8) == "PARALLEL") {
-//            cout << "you entered parallel" << endl;
-//            cout << input.substr(9) << endl;
             parallel(input.substr(9));
         } else {
             initProcess(input);
@@ -148,6 +146,16 @@ void parallel(string fileName) {
         pids.push_back(pid);
     }        
     // Execute each line
+    for (auto const cmd : commands) {
+        // Test if user wants to exit
+        if (exit(cmd)) {
+            exit(0);
+        }
+        // Test if user entered a comment
+        if (cmd[0] != '#' && !cmd.empty()) {
+            initProcess(cmd);
+        }
+    }
     
     // Todo: why is it not exiting when exit command is passed after running 
     // parallel?
@@ -157,6 +165,7 @@ void parallel(string fileName) {
         int exitCode;
         waitpid(pid, &exitCode, 0);
     }
+    cout << "Parallel is finished running." << endl;
 }  // End of the 'parallel' method
 
 /**
