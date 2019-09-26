@@ -168,12 +168,12 @@ void parallel(string fileName) {
     // Todo: why is it not exiting when exit command is passed after running 
     // parallel?
       
+    int exitCode;
     // Wait for each pid to return
-    for (const auto pid : pids) {
-        int exitCode;
-        waitpid(pid, &exitCode, 0);
-        cout << "Exit code: " << exitCode << endl;
+    for (const auto pid : pids) {        
+        waitpid(pid, &exitCode, 0);        
     }
+    cout << "Exit code: " << exitCode << endl;
     cout << "Parallel is finished running." << endl;
 }  // End of the 'parallel' method
 
