@@ -148,12 +148,13 @@ void parallel(string fileName) {
     // Execute each line
     for (auto const cmd : commands) {
         // Test if user wants to exit
-        if (exit(cmd)) {
-            exit(0);
-        }
+        if (exit(cmd)) {exit(0);}
         // Test if user entered a comment
         if (cmd[0] != '#' && !cmd.empty()) {
-            initProcess(cmd);
+//            initProcess(cmd); //
+            try {parseCmd(cmd);} catch (const exception& e) {
+                cout << e.what() << endl;
+            }
         }
     }
     
