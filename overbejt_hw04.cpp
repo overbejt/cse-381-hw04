@@ -30,6 +30,7 @@ int preChecks(string input);
 void initProcess(string inCmd);
 void parseCmd(string input);    
 void  myExec(StrVec argList);
+int forkNexec(StrVec argsList);
 
 /**
  * This is a helper method for executing system calls supplied by the user.  
@@ -98,6 +99,28 @@ void initProcess(string inCmd) {
     }
 }  // End of the 'initProcess' method
 
+// Forks and executes. On parent, it returns child's pid
+int forkNexec(string cmd) {
+    const int pid = fork();
+    // Test if user wants to exit
+    if (exit(cmd)) {
+        exit(0);
+    }
+    // Test if user entered a comment
+    if (cmd[0] != '#' && !cmd.empty()) {
+        // Test if child
+        if (pid == 0) {
+            try {
+                // Process the child input
+                parseCmd(cmd);
+            } catch (const exception& e) {
+                cout << e.what() << endl;
+            }
+        } 
+    }
+    return pid;
+}  // End of the 'forkNexec' method
+
 /**
  * This is a helper method that will filter out comments and empty lines from 
  * the user.
@@ -142,28 +165,18 @@ void parallel(string fileName) {
     contents.close();
     // Create a fork for each line
     for (auto const cmd : commands) {
-        const int pid = fork();
+        const int pid = forkNexec(cmd);
         pids.push_back(pid);
-        if (pid == 0) {
-//        preChecks(cmd);
-            // Test if user entered a comment or empty line
-            if (cmd[0] != '#' && !cmd.empty()) {
-                parseCmd(cmd);
-            }
-        }
-    }        
-    // Execute each line
-//    for (auto const cmd : commands) {
-//        // Test if user wants to exit
-//        if (exit(cmd)) {exit(0);}
-//        // Test if user entered a comment
-//        if (cmd[0] != '#' && !cmd.empty()) {
-////            initProcess(cmd); //
-//            try {parseCmd(cmd);} catch (const exception& e) {
-//                cout << e.what() << endl;
+//        if (pid == 0) {
+////        preChecks(cmd);
+//            // Test if user entered a comment or empty line
+//            if (cmd[0] != '#' && !cmd.empty()) {
+//                parseCmd(cmd);
 //            }
 //        }
-//    }
+    }    
+
+
     
     // Todo: why is it not exiting when exit command is passed after running 
     // parallel?
