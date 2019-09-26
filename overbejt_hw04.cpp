@@ -144,11 +144,14 @@ void parallel(string fileName) {
     for (auto const cmd : commands) {
         const int pid = fork();
         pids.push_back(pid);
-    }
-    
-    
+    }        
     // Execute each line
+    
     // Wait for each pid to return
+    for (const auto pid : pids) {
+        int exitCode;
+        waitpid(pid, &exitCode, 0);
+    }
 }  // End of the 'parallel' method
 
 /**
