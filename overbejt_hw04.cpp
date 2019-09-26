@@ -20,12 +20,12 @@
 
 using namespace std;
 using StrVec = vector<string>;
-using PidVec = vecotor<int>;
+using PidVec = vector<int>;
 
 // Prototypes
 bool exit(string input);
 void serial(string fileName);
-void parallel(StrVec commands);
+void parallel(string fileName);
 int preChecks(string input);
 void initProcess(string inCmd);
 void parseCmd(string input);    
@@ -130,8 +130,25 @@ int preChecks(string input) {
  * 
  * @param commands the commands that the user wants to run.
  */
-void parallel(StrVec commands) {
-    // Todo: a lot of stuff
+void parallel(string fileName) {
+    StrVec commands;
+    PidVec pids;
+    // Scrape the file
+    ifstream contents(fileName, ifstream::in);
+    for (string line; getline(contents, line);) {
+        // Push each line onto a vector
+        commands.push_back(line);
+    }    
+    contents.close();
+    // Create a fork for each line
+    for (auto const cmd : commands) {
+        const int pid = fork();
+        pids.push_back(pid);
+    }
+    
+    
+    // Execute each line
+    // Wait for each pid to return
 }  // End of the 'parallel' method
 
 /**
