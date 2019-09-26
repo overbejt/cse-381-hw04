@@ -119,9 +119,11 @@ int forkNexec(string cmd) {
                 cout << e.what() << endl;
             }
         } else {
+            // Return ppid
             return pid;
         }
     }
+    // Return child pid
     return 0;
 }  // End of the 'forkNexec' method
 
@@ -171,13 +173,6 @@ void parallel(string fileName) {
     for (auto const cmd : commands) {
         const int pid = forkNexec(cmd);
         pids.push_back(pid);
-//        if (pid == 0) {
-////        preChecks(cmd);
-//            // Test if user entered a comment or empty line
-//            if (cmd[0] != '#' && !cmd.empty()) {
-//                parseCmd(cmd);
-//            }
-//        }
     }    
 
 
@@ -188,9 +183,10 @@ void parallel(string fileName) {
     int exitCode;
     // Wait for each pid to return
     for (const auto pid : pids) {        
-        waitpid(pid, &exitCode, 0);        
+        waitpid(pid, &exitCode, 0);   
+        cout << "Exit code: " << exitCode << endl;
     }
-    cout << "Exit code: " << exitCode << endl;
+    
     cout << "Parallel is finished running." << endl;
 }  // End of the 'parallel' method
 
