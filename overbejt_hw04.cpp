@@ -162,6 +162,7 @@ int preChecks(string input) {
 void parallel(string fileName) {
     StrVec commands;
     PidVec pids;
+    
     // Scrape the file
     ifstream contents(fileName, ifstream::in);
     for (string line; getline(contents, line);) {
@@ -169,25 +170,19 @@ void parallel(string fileName) {
         commands.push_back(line);
     }    
     contents.close();
+    
     // Create a fork for each line
     for (auto const cmd : commands) {
         const int pid = forkNexec(cmd);
         pids.push_back(pid);
     }    
 
-
-    
-    // Todo: why is it not exiting when exit command is passed after running 
-    // parallel?
-      
     int exitCode;
     // Wait for each pid to return
     for (const auto pid : pids) {        
         waitpid(pid, &exitCode, 0);   
         cout << "Exit code: " << exitCode << endl;
-    }
-    
-    cout << "Parallel is finished running." << endl;
+    }    
 }  // End of the 'parallel' method
 
 /**
