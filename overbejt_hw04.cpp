@@ -99,7 +99,13 @@ void initProcess(string inCmd) {
     }
 }  // End of the 'initProcess' method
 
-// Forks and executes. On parent, it returns child's pid
+/**
+ * This is a helper method for forking and executing commands that the user 
+ * entered.
+ * 
+ * @param cmd The command to be executed.
+ * @return returns the child's pid when it is a parent.
+ */
 int forkNexec(string cmd) {    
     // Test if user wants to exit
     if (exit(cmd)) {
