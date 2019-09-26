@@ -29,7 +29,7 @@ void parallel(string fileName);
 int preChecks(string input);
 void initProcess(string inCmd);
 void parseCmd(string input);    
-void  myExec(StrVec argList);
+void myExec(StrVec argList);
 int forkNexec(StrVec argsList);
 
 /**
