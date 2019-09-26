@@ -100,14 +100,16 @@ void initProcess(string inCmd) {
 }  // End of the 'initProcess' method
 
 // Forks and executes. On parent, it returns child's pid
-int forkNexec(string cmd) {
-    const int pid = fork();
+int forkNexec(string cmd) {    
     // Test if user wants to exit
     if (exit(cmd)) {
         exit(0);
     }
+    int pid;
     // Test if user entered a comment
     if (cmd[0] != '#' && !cmd.empty()) {
+        cout << "Running: " << cmd << endl;
+        pid = fork();
         // Test if child
         if (pid == 0) {
             try {
@@ -116,9 +118,11 @@ int forkNexec(string cmd) {
             } catch (const exception& e) {
                 cout << e.what() << endl;
             }
-        } 
+        } else {
+            return pid;
+        }
     }
-    return pid;
+    return 0;
 }  // End of the 'forkNexec' method
 
 /**
