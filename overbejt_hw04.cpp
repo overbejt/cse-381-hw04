@@ -144,7 +144,13 @@ void parallel(string fileName) {
     for (auto const cmd : commands) {
         const int pid = fork();
         pids.push_back(pid);
-        preChecks(cmd);
+        if (pid == 0) {
+//        preChecks(cmd);
+            // Test if user entered a comment or empty line
+            if (cmd[0] != '#' && !cmd.empty()) {
+                parseCmd(cmd);
+            }
+        }
     }        
     // Execute each line
 //    for (auto const cmd : commands) {
