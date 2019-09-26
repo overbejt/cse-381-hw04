@@ -149,6 +149,9 @@ void parallel(string fileName) {
     }        
     // Execute each line
     
+    // Todo: why is it not exiting when exit command is passed after running 
+    // parallel?
+      
     // Wait for each pid to return
     for (const auto pid : pids) {
         int exitCode;
